@@ -3,7 +3,7 @@ import { assets } from '../assets/assets'
 
 const Howitworks = () => {
   return (
-    <div className='mx-4 lg:mx-44 py-20 xl:py-40'>
+    <div id='how-it-works' className='mx-4 lg:mx-44 py-20 xl:py-40'>
       <h1 className='text-center py-1 text-2xl md:text-3xl lg:text-4xl mt-4 font-bold bg-linear-to-r from-gray-900 to-gray-400 bg-clip-text text-transparent'>Steps to remove background<br/>image in seconds</h1>
       <div className='flex items-start flex-wrap gap-4 mt-16 xl:mt-24 justify-center'>
         <div className='flex items-start gap-4 bg-white border border-white drop-shadow-md p-7 pb-10 rounded hover:scale-105 transition-all duration-500'>

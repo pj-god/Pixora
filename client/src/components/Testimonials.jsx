@@ -3,7 +3,7 @@ import { testimonialsData } from '../assets/assets'
 
 const Testimonials = () => {
   return (
-    <div className='pb-10 md:py-20 mx-2'>
+    <div id='testimonials' className='pb-10 md:py-20 mx-2'>
         <h1 className='text-center mb-12 sm:mb-20 py-1 text-2xl md:text-3xl lg:text-4xl mt-4 font-bold bg-linear-to-r from-gray-900 to-gray-400 bg-clip-text text-transparent'>Customer Testimonials</h1>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto px-4 py-8'>
             {testimonialsData.map((item, index)=> (
