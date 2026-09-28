@@ -2,8 +2,13 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import { assets } from '../assets/assets'
+import { useClerk, UserButton, useUser } from '@clerk/react'
 
 const Navbar = () => {
+
+  const { openSignIn } = useClerk()
+
+  const { isSignedIn, user } = useUser()
 
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -15,7 +20,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex items-center justify-between h-16">
-          <a href="#home" onClick={closeMenu} className="flex items-center gap-2 sm:gap-3"><img src={assets.logo_icon} alt="Pixora" className="w-30 h-30  object-contain"/></a>
+          <a href="#home" onClick={closeMenu} className="flex items-center gap-2 sm:gap-3"><img src={assets.logo_icon} alt="Pixora" className="w-30 h-30  object-contain" /></a>
           <div className="hidden md:flex items-center gap-5 lg:gap-8">
             <a href="#home" className="relative text-gray-700 font-medium hover:text-blue-600 transition-colors duration-200 py-2" >Home</a>
             <a href="#how-it-works" className="text-gray-700 font-medium hover:text-blue-600 transition-colors duration-200">How it works</a>
@@ -23,10 +28,16 @@ const Navbar = () => {
             <a href="#testimonials" className="text-gray-700 font-medium hover:text-blue-600 transition-colors duration-200">Testimonials</a>
             <Link to="/pricing" className="text-gray-700 font-medium hover:text-blue-600 transition-colors duration-200"> Pricing</Link>
           </div>
-          <Link to="/get-started" className="hidden md:flex items-center gap-2 sm:gap-3 bg-gray-900 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-full font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm hover:shadow-md">
-            <span>Get started</span>
-            <span className="text-xl leading-none">→</span>
-          </Link>
+          {
+            isSignedIn
+              ? <div>
+                <UserButton />
+              </div>
+              : <Link className="hidden md:flex items-center gap-2 sm:gap-3 bg-gray-900 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-full font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm hover:shadow-md">
+                <span onClick={() => openSignIn({})}>Get started</span>
+                <span className="text-xl leading-none">→</span>
+              </Link>
+          }
           <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors" aria-label="Toggle menu">
             {menuOpen ? (
               <X size={22} />
