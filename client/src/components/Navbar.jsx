@@ -1,14 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import { assets } from '../assets/assets'
 import { useClerk, UserButton, useUser } from '@clerk/react'
+import { useContext } from 'react'
+import { appContext } from '../context/AppContext'
 
 const Navbar = () => {
 
   const { openSignIn } = useClerk()
 
   const { isSignedIn, user } = useUser()
+
+  const {credit, loadCreditsData} = useContext(appContext)
+
+  useEffect(() => {
+    if(isSignedIn){
+      loadCreditsData()
+    }
+  }, [isSignedIn])
 
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -30,7 +40,12 @@ const Navbar = () => {
           </div>
           {
             isSignedIn
-              ? <div>
+              ? <div className='flex items-center gap-2 sm:gap-3'> 
+                <button className='flex items-center gap-2 px-4 sm:px-7 py-1.5 sm:py-2.5 rounded-full bg-[#f9f5f5]'>
+                  <img className='w-7' src={assets.credit_icon} />
+                  <p className='text-xs sm:text-sm font-medium text-gray-600'>Credits : {credit}</p>
+                </button>
+                <p className='text-gray-800 max-sm:hidden'>Hi, {user.firstName}</p>
                 <UserButton />
               </div>
               : <Link className="hidden md:flex items-center gap-2 sm:gap-3 bg-gray-900 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-full font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm hover:shadow-md">

@@ -78,7 +78,7 @@ const userCredits = async (req, res) => {
 
     try{
 
-        const {clerkId} = req.body
+        const {clerkId} = req
 
         const userData = await userModel.findOne({clerkId})
 
