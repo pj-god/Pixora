@@ -124,20 +124,20 @@ const razorpayPayment = async (req,res) => {
         let credits, plan, amount, date
 
         switch (planId) {
-            case 'Plus':
-                plan = 'Plus'
+            case 'PLUS':
+                plan = 'PLUS'
                 credits = 100
                 amount = 150
                 break;
 
-            case 'Pro':
-                plan = 'Pro'
+            case 'PRO':
+                plan = 'PRO'
                 credits = 500
                 amount = 700
                 break;
             
-            case 'Max':
-                plan = 'Max'
+            case 'MAX':
+                plan = 'MAX'
                 credits = 2000
                 amount = 2500
                 break;
