@@ -110,7 +110,8 @@ const razorpayPayment = async (req,res) => {
 
     try{
 
-        const {clerkId, planId} = req
+        const {clerkId} = req
+        const {planId} = req.body
 
         const userData = await userModel.findOne({clerkId})
 
