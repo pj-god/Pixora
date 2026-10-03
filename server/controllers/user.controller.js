@@ -1,6 +1,7 @@
 import {Webhook} from 'svix'
 import userModel from '../models/user.model.js'
 import razorpay from 'razorpay'
+import transactionModel from '../models/transaction.model.js'
 
 const clerkWebhooks = async (req, res) => {
     try{
@@ -147,6 +148,38 @@ const razorpayPayment = async (req,res) => {
 
         date = Date.now()
 
+        const transactionData = {
+            clerkId,
+            plan,
+            amount,
+            credits,
+            date
+        }
+
+        const newTransaction = await transactionModel.create(transactionData)
+
+        const options = {
+            amount : amount*100,
+            currency : process.env.CURRENCY,
+            receipt : newTransaction._id,
+        }
+
+        await razorpayInstance.orders.create(options, (error, order) => {
+            if(error){
+                return res.json({
+                    success : false,
+                    message : 'Error'
+                })
+            }
+
+            res.json({
+                success : true,
+                order,
+            })
+        })
+
+
+
     } catch(error){
         
         console.log(error.message)
@@ -159,4 +192,4 @@ const razorpayPayment = async (req,res) => {
 
 }
 
-export {clerkWebhooks, userCredits}
+export {clerkWebhooks, userCredits, razorpayPayment}
