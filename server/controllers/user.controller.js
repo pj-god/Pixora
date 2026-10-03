@@ -211,8 +211,8 @@ const verifyRazorpay = async (req,res) => {
             }
 
             const userData = await userModel.findOne({clerkId : transactionData.clerkId})
-            const creditBal = userData.creditBalance + transactionData.credits
-            await userModel.findByIdAndUpdate(userData._id, {creditBal})
+            const creditBalance = userData.creditBalance + transactionData.credits
+            await userModel.findByIdAndUpdate(userData._id, {creditBalance})
 
             await transactionModel.findByIdAndUpdate(transactionData._id, {
                 payment : true
