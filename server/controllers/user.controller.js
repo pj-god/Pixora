@@ -1,5 +1,6 @@
 import {Webhook} from 'svix'
 import userModel from '../models/user.model.js'
+import razorpay from 'razorpay'
 
 const clerkWebhooks = async (req, res) => {
     try{
@@ -86,6 +87,65 @@ const userCredits = async (req, res) => {
             success : true,
             credits : userData.creditBalance
         })
+
+    } catch(error){
+        
+        console.log(error.message)
+        res.json({
+            success:false,
+            message : error.message
+        })
+
+    }
+
+}
+
+const razorpayInstance = new razorpay({
+    key_id : process.env.RAZORPAY_KEY_ID,
+    key_secret : process.env.RAZORPAY_KEY_SECRET,
+})
+
+const razorpayPayment = async (req,res) => {
+
+    try{
+
+        const {clerkId, planId} = req
+
+        const userData = await userModel.findOne({clerkId})
+
+        if(!userData || !planId){
+            return res.json({
+                success : false,
+                message : 'Invalid credentials'
+            })
+        }
+
+        let credits, plan, amount, date
+
+        switch (planId) {
+            case 'Plus':
+                plan = 'Plus'
+                credits = 100
+                amount = 150
+                break;
+
+            case 'Pro':
+                plan = 'Pro'
+                credits = 500
+                amount = 700
+                break;
+            
+            case 'Max':
+                plan = 'Max'
+                credits = 2000
+                amount = 2500
+                break;
+        
+            default:
+                break;
+        }
+
+        date = Date.now()
 
     } catch(error){
         
